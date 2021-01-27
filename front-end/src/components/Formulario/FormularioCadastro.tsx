@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 interface IRegisters {
-  id: number
+  id: number;
   nome: string;
   sobrenome: string;
   cpf: string;
@@ -23,7 +23,7 @@ function FormularioCadastro() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [registers, setRegisters] = useState<IRegisters[]>([])
+  const [registers, setRegisters] = useState<IRegisters[]>([]);
 
   const url = "http://localhost:3333/register";
   useEffect(() => {
@@ -31,29 +31,33 @@ function FormularioCadastro() {
       setRegisters(response.data);
     });
   }, []);
-  
-  async function handleSubmit(event : FormEvent){
-      event.preventDefault();
-      const url = "http://localhost:3333/register";
-      const data = new FormData();
-      data.append('nome',nome);
-      data.append('sobrenome',sobrenome);
-      data.append('cpf',cpf);
-      data.append('promocao',String(promocao));
-      data.append('novidades',String (novidade));
-      data.append('dataCadastro',String(new Date()));
-      await axios.post(url,data)
 
-      alert("Cadastro realizado com sucesso")
-    }
+  function cleanFields(){
+    setNome("")
+    setSobrenome("")
+    setCpf("")
+  }
 
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    const url = "http://localhost:3333/register";
+    const data = new FormData();
+    data.append("nome", nome);
+    data.append("sobrenome", sobrenome);
+    data.append("cpf", cpf);
+    data.append("promocao", String(promocao));
+    data.append("novidades", String(novidade));
+    data.append("dataCadastro", String(new Date()));
+    const JSonValues = Object.fromEntries(data.entries());
+    console.log(JSonValues);
+    await axios.post(url, JSonValues);
+    cleanFields();
+    alert("Cadastro realizado com sucesso");
+  }
 
-    
   return (
     <>
-      <form
-        className="form-submit"
-        onSubmit={handleSubmit}>
+      <form className="form-submit" onSubmit={handleSubmit}>
         <md.DialogTitle> Formulário de Cadastro </md.DialogTitle>
         <md.TextField
           onChange={(event) => {
