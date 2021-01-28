@@ -1,0 +1,14 @@
+#container-tabela{
+    margin-top:3%;
+    
+}
+#tabela-listagem{
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    background-color: transparent
+}
+#tabela-listagem tr td{
+    color: black;
+}
+th{
+    color:black
+}

@@ -1,3 +1,7 @@
 .button-submit{
     float: right;
 }
+#container-cadastro{
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    margin-top: 3%;
+}
