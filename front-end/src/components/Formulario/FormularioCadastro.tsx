@@ -12,6 +12,10 @@ function FormularioCadastro() {
   const [promocao, setPromocao] = useState<boolean>(true);
   const [novidade, setNovidades] = useState<boolean>(true);
 
+const formatCPFNumbers = (value: any) =>{
+  return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g,"\$1.\$2.\$3\-\$4")
+}
+
   function cleanFields() {
     setNome("");
     setSobrenome("");
@@ -19,7 +23,7 @@ function FormularioCadastro() {
   }
 
   async function handleSubmit(event: FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
     const url = "http://localhost:3333/register";
     const data = new FormData();
     data.append("nome", nome);
@@ -29,11 +33,16 @@ function FormularioCadastro() {
     data.append("novidades", String(novidade));
     data.append("dataCadastro", String(new Date()));
     const JSonValues = Object.fromEntries(data.entries());
-    console.log(JSonValues);
-    console.log(promocao)
-    console.log(novidade)
-    await axios.post(url, JSonValues);
- 
+
+    await axios.post(url, {
+      nome: nome,
+      sobrenome: sobrenome,
+      cpf: cpf,
+      promocao: promocao,
+      novidades: novidade,
+      dataCadastro: new Date(),
+    });
+
     cleanFields();
     alert("Cadastro realizado com sucesso");
   }
@@ -67,12 +76,17 @@ function FormularioCadastro() {
           required={true}
         />
         <md.TextField
+          inputProps={{
+            maxlength: 11
+          }}
           label="Escreva seu cpf"
           variant="outlined"
           fullWidth={true}
           id="input-cadastro"
           margin="normal"
           onChange={(event) => {
+            const {value} = event.target
+            event.target.value = formatCPFNumbers(value)
             setCpf(event.target.value);
           }}
           value={cpf}
@@ -80,6 +94,7 @@ function FormularioCadastro() {
         />
         <md.FormLabel> Promoções </md.FormLabel>
         <md.Switch
+          checked={promocao}
           color="primary"
           onChange={(event) => {
             setPromocao(event.target.checked);
@@ -89,6 +104,7 @@ function FormularioCadastro() {
         <md.FormLabel> Novidades </md.FormLabel>
         <md.Switch
           color="primary"
+          checked={novidade}
           onChange={(event) => {
             setNovidades(event.target.checked);
           }}
@@ -105,7 +121,7 @@ function FormularioCadastro() {
           Cadastrar{" "}
         </md.Button>
       </form>
-      </div>
+    </div>
   );
 }
 export default FormularioCadastro;

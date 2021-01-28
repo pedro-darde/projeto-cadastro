@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import '../Lista/style.css'
+import * as icons from 'react-icons/fa'
+import { useParams } from "react-router-dom";
 interface IRegisters {
   id: number;
   nome: string;
@@ -11,16 +13,26 @@ interface IRegisters {
   dataCadastro: Date;
 }
 
+
 function ListagemCadastro() {
   const [registers, setRegisters] = useState<IRegisters[]>([]);
   const dateFormat = require("dateformat");
+  
+
+  
   const url = "http://localhost:3333/register";
   useEffect(() => {
     axios.get(url).then((response) => {
       setRegisters(response.data);
     });
   }, []);
-
+  function editRegister(){
+    const
+    const url = `http://localhost:3333/register/${}`
+    axios.get(url).then(response=>{
+      setRegisters(response.data)
+    })
+  }
   return (
     <div className="container" id="container-tabela">
       <table className="table table-dark" id="tabela-listagem">
@@ -33,6 +45,7 @@ function ListagemCadastro() {
             <th>Aceita ver promoções ?</th>
             <th>Aceita ver novidades ?</th>
             <th>Data do cadastro</th>
+            <th>Editar</th>
           </tr>
         </thead>
         <tbody>
@@ -46,6 +59,7 @@ function ListagemCadastro() {
                 <td>{register.promocao === true ? "Sim" : "Não"}</td>
                 <td>{register.novidades === true ? "Sim" : "Não"}</td>
                 <td>{dateFormat(register.dataCadastro, "dd,mm,yyyy")}</td>
+                <td><button className="btn btn-primary"><icons.FaEdit/></button></td>
               </tr>
             );
           })}

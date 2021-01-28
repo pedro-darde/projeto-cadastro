@@ -29,12 +29,10 @@ export class RegisterMigration1611763388575 implements MigrationInterface {
           {
             name: "promocao",
             type: "boolean",
-            default: true,
           },
           {
             name: "novidades",
             type: "boolean",
-            default: true,
           },
           {
             name: "dataCadastro",
