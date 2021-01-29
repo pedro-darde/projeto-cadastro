@@ -4,6 +4,7 @@
     "username":"root",
     "password": "pass123",
     "host" : "127.0.0.1",
+    "logging":  ["query", "error"],
     "migrations": [
         "./src/database/migrations/*.ts"
     ],

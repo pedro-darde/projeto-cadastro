@@ -1,7 +1,6 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import * as md from "@material-ui/core";
 import "../Formulario/style.css";
-import * as b from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
