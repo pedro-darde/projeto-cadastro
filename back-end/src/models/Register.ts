@@ -23,4 +23,10 @@ export default class Register {
   
   @Column()
   dataCadastro: Date;
+
+  @Column()
+  email: string;
+
+  @Column()
+  dataNascimento: Date;
 }

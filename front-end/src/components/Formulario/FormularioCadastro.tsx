@@ -3,14 +3,18 @@ import * as md from "@material-ui/core";
 import "../Formulario/style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import "date-fns";
 function FormularioCadastro() {
   const [nome, setNome] = useState<string>("");
   const [sobrenome, setSobrenome] = useState<string>("");
   const [cpf, setCpf] = useState<string>("");
   const [promocao, setPromocao] = useState<boolean>(true);
   const [novidade, setNovidades] = useState<boolean>(true);
+  const [email, setEmail] = useState<string>("");
+  const [dataNascimento, setDataNascimento] = useState<Date | string>();
   const notify = () => toast("Registro incluido com sucesso!");
   const formatCPFNumbers = (value: any) => {
     return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
@@ -20,6 +24,7 @@ function FormularioCadastro() {
     setNome("");
     setSobrenome("");
     setCpf("");
+    setEmail("");
   }
 
   async function handleSubmit(event: FormEvent) {
@@ -32,6 +37,8 @@ function FormularioCadastro() {
       promocao: promocao,
       novidades: novidade,
       dataCadastro: new Date(),
+      email: email,
+      dataNascimento: dataNascimento,
     });
 
     cleanFields();
@@ -53,6 +60,13 @@ function FormularioCadastro() {
             margin="normal"
             value={nome}
             required={true}
+            InputProps={{
+              startAdornment: (
+                <md.InputAdornment position="start">
+                  <AccountCircle />
+                </md.InputAdornment>
+              ),
+            }}
           />
           <md.TextField
             label="Esreva seu sobrenome"
@@ -83,6 +97,29 @@ function FormularioCadastro() {
             value={cpf}
             required={true}
           />
+          <md.TextField
+            label="Esreva seu email"
+            variant="outlined"
+            fullWidth={true}
+            margin="normal"
+            id="input-cadastro"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+            value={email}
+            required={true}
+          />
+          <md.TextField
+            variant="outlined"
+            fullWidth={true}
+            margin="normal"
+            label="Data de Nascimento"
+            type="date"
+            value={dataNascimento}
+            onChange={(event) => {
+              setDataNascimento(event.target.value);
+            }}
+          />
           <md.FormLabel> Promoções </md.FormLabel>
           <md.Switch
             checked={promocao}
@@ -112,7 +149,7 @@ function FormularioCadastro() {
             {" "}
             Cadastrar{" "}
           </md.Button>
-          <ToastContainer/>
+          <ToastContainer />
         </form>
       </div>
     </>

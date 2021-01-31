@@ -29,6 +29,8 @@ export default {
       promocao,
       novidades,
       dataCadastro,
+      email,
+      dataNascimento
     } = request.body;
 
     const registerRepository = getRepository(Register);
@@ -40,9 +42,12 @@ export default {
       promocao,
       novidades,
       dataCadastro,
+      email,
+      dataNascimento
     });
     await registerRepository.save(register);
     return response.status(201).json({ register });
+    
   },
 
   async edit(request: Request, response: Response) {
@@ -54,6 +59,8 @@ export default {
       promocao,
       novidades,
       dataCadastro,
+      email,
+      dataNascimento
     } = request.body;
 
     const registerRepository = getRepository(Register);
@@ -64,6 +71,8 @@ export default {
       promocao,
       novidades,
       dataCadastro,
+      email,
+      dataNascimento
     });
 
     response.status(200);

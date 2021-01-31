@@ -10,6 +10,8 @@ export default {
       promocao: register.promocao,
       novidades: register.novidades,
       dataCadastro: register.dataCadastro,
+      email: register.email,
+      dataNascimento: register.dataNascimento
     };
   },
 

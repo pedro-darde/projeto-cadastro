@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import * as md from "@material-ui/core";
 import "../Lista/style.css";
 import { Link } from "react-router-dom";
-import "./style.css"
+import "./style.css";
 interface RegisterParams {
   id: string;
 }
@@ -16,10 +16,12 @@ export default function Register() {
   const [promocao, setPromocao] = useState<boolean>(true);
   const [novidade, setNovidades] = useState<boolean>(true);
   const [dataCadastro, setDataCadastro] = useState<Date>();
+  const[email,setEmail]=useState<string>("")
+  const[dataNascimento,setDataNascimento]=useState<Date|string>();
   const dateFormat = require("dateformat");
-  const formatCPFNumbers = (value: any) =>{
-    return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g,"\$1.\$2.\$3\-\$4")
-  }
+  const formatCPFNumbers = (value: any) => {
+    return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
+  };
   useEffect(() => {
     axios
       .get(`http://localhost:3333/register/${params.id}`)
@@ -30,6 +32,8 @@ export default function Register() {
         setPromocao(response.data.promocao);
         setNovidades(response.data.novidades);
         setDataCadastro(response.data.dataCadastro);
+        setEmail(response.data.email);
+        setDataNascimento(response.data.dataNascimento)
       });
   }, []);
 
@@ -42,6 +46,8 @@ export default function Register() {
       promocao: promocao,
       novidades: novidade,
       dataCadastro: dataCadastro,
+      email: email,
+      dataNascimento: dataNascimento
     });
   }
 
@@ -73,28 +79,53 @@ export default function Register() {
           }}
         />
         <md.TextField
+          inputProps={{
+            maxlength: 11,
+          }}
           variant="outlined"
           fullWidth={true}
           id="input-cadastro"
           margin="normal"
           value={cpf}
           onChange={(event) => {
+            const { value } = event.target;
+            event.target.value = formatCPFNumbers(value);
             setCpf(event.target.value);
           }}
         />
+          <md.TextField
+          variant="outlined"
+          fullWidth={true}
+          margin="normal"
+          id="input-cadastro"
+          value={email}
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
+        />
+         <md.TextField
+            variant="outlined"
+            fullWidth={true}
+            margin="normal"
+            label="Data de Nascimento"
+            type="date"
+            value={dataNascimento?.toString}
+            onChange={(event) => {
+              setDataNascimento(event.target.value);
+            }}
+          />
         <md.FormLabel> Promoções </md.FormLabel>
         <md.Switch color="primary" checked={promocao} />
         <md.FormLabel> Novidades </md.FormLabel>
         <md.Switch color="primary" checked={novidade} />
-        <Link
-          id="link-redirect"
-          type="submit"
-          to="/listagemCadastro"
+        <a
+          id="link-edit"
+          href="/listagemCadastro"
           onClick={editRegister}
           className="btn btn-primary"
         >
           Confirmar Alteração
-        </Link>
+        </a>
       </form>
     </div>
   );
