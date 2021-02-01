@@ -3,8 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as md from "@material-ui/core";
 import "../Lista/style.css";
-import { Link } from "react-router-dom";
 import "./style.css";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
+import ContactsIcon from '@material-ui/icons/Contacts';
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 interface RegisterParams {
   id: string;
 }
@@ -17,7 +26,7 @@ export default function Register() {
   const [novidade, setNovidades] = useState<boolean>(true);
   const [dataCadastro, setDataCadastro] = useState<Date>();
   const[email,setEmail]=useState<string>("")
-  const[dataNascimento,setDataNascimento]=useState<Date|string>();
+  const[dataNascimento,setDataNascimento]=useState<Date|null>();
   const dateFormat = require("dateformat");
   const formatCPFNumbers = (value: any) => {
     return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
@@ -53,7 +62,7 @@ export default function Register() {
 
   return (
     <div className="container" id="container-cadastro">
-      <label className="col-sm-2 col-form-label" id="data-cadastro">
+      <label id="data-cadastro">
         Data do cadastro : {dateFormat(dataCadastro, "dd/mm/yyyy")}
       </label>
       <form className="form-submit">
@@ -64,8 +73,19 @@ export default function Register() {
           id="input-nome"
           margin="normal"
           value={nome}
+          label="Nome"
           onChange={(event) => {
             setNome(event.target.value);
+          }}
+          InputProps={{
+            startAdornment: (
+              <md.InputAdornment position="start">
+                <AccountCircle />
+              </md.InputAdornment>
+            ),
+          }}
+          InputLabelProps={{
+            shrink: true,
           }}
         />
         <md.TextField
@@ -73,9 +93,20 @@ export default function Register() {
           fullWidth={true}
           margin="normal"
           id="input-cadastro"
+          label="Sobrenome"
           value={sobrenome}
           onChange={(event) => {
             setSobrenome(event.target.value);
+          }}
+          InputProps={{
+            startAdornment: (
+              <md.InputAdornment position="start">
+                <AccountCircle />
+              </md.InputAdornment>
+            ),
+          }}
+          InputLabelProps={{
+            shrink: true,
           }}
         />
         <md.TextField
@@ -86,34 +117,61 @@ export default function Register() {
           fullWidth={true}
           id="input-cadastro"
           margin="normal"
+          label="CPF"
           value={cpf}
           onChange={(event) => {
             const { value } = event.target;
             event.target.value = formatCPFNumbers(value);
             setCpf(event.target.value);
           }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            startAdornment: (
+              <md.InputAdornment position="start">
+                <ContactsIcon/>
+              </md.InputAdornment>
+            ),
+          }}
         />
           <md.TextField
           variant="outlined"
           fullWidth={true}
+          label="Email Cadastro"
           margin="normal"
           id="input-cadastro"
           value={email}
           onChange={(event) => {
             setEmail(event.target.value);
           }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            startAdornment: (
+              <md.InputAdornment position="start">
+                <AlternateEmailIcon/>
+              </md.InputAdornment>
+            ),
+          }}
         />
-         <md.TextField
-            variant="outlined"
-            fullWidth={true}
-            margin="normal"
-            label="Data de Nascimento"
-            type="date"
-            value={dataNascimento?.toString}
-            onChange={(event) => {
-              setDataNascimento(event.target.value);
-            }}
-          />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              margin="normal"
+              label="Data de nascimento"
+              format="dd/MM/yyyy"
+              fullWidth={true}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+              value={dataNascimento}
+              onChange={(event) => {
+                setDataNascimento(event);
+                console.log(dataNascimento);
+              }}
+            />
+          </MuiPickersUtilsProvider>
         <md.FormLabel> Promoções </md.FormLabel>
         <md.Switch color="primary" checked={promocao} />
         <md.FormLabel> Novidades </md.FormLabel>

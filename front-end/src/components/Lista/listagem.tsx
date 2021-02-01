@@ -11,6 +11,7 @@ import {
   createStyles,
   makeStyles,
 } from "@material-ui/core/styles";
+import { config } from "process";
 
 interface IRegisters {
   id: number;
@@ -24,18 +25,35 @@ interface IRegisters {
   dataNascimento: string;
 }
 
+interface pedroPaodeBatata {
+  usuario: {
+
+  },
+  token: string
+}
+
 export default function ListagemCadastro() {
   const [registers, setRegisters] = useState<IRegisters[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const dateFormat = require("dateformat");
   const url = "http://localhost:3333/register";
   const history = useHistory();
+
+  const {token}  = JSON.parse(localStorage.getItem('usuario') !)
+  console.log(token)
+
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setRegisters(response.data);
-      setLoading(false);
-      console.log(response.data);
-    });
+    axios
+      .get(url, {
+        headers: {
+          "X-Access-Token": `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setRegisters(response.data);
+        setLoading(false);
+        console.log(response.data);
+      });
   }, []);
 
   const StyledTableCell = withStyles((theme: Theme) =>
@@ -110,7 +128,9 @@ export default function ListagemCadastro() {
                   <StyledTableCell align="right">Novidades</StyledTableCell>
                   <StyledTableCell align="right">Data Cadastro</StyledTableCell>
                   <StyledTableCell align="right">Email</StyledTableCell>
-                  <StyledTableCell align="right">Data Nascimento</StyledTableCell>
+                  <StyledTableCell align="right">
+                    Data Nascimento
+                  </StyledTableCell>
                   <StyledTableCell align="right" />
                 </StyledTableRow>
               </md.TableHead>
@@ -138,7 +158,9 @@ export default function ListagemCadastro() {
                       <StyledTableCell align="right">
                         {dateFormat(row.dataCadastro, "dd/mm/yyyy")}
                       </StyledTableCell>
-                      <StyledTableCell align="right">{row.email}</StyledTableCell>
+                      <StyledTableCell align="right">
+                        {row.email}
+                      </StyledTableCell>
                       <StyledTableCell align="right">
                         {dateFormat(row.dataNascimento, "dd/mm/yyyy")}
                       </StyledTableCell>

@@ -30,7 +30,9 @@ export default {
       novidades,
       dataCadastro,
       email,
-      dataNascimento
+      dataNascimento,
+      usuario,
+      senha
     } = request.body;
 
     const registerRepository = getRepository(Register);
@@ -43,7 +45,9 @@ export default {
       novidades,
       dataCadastro,
       email,
-      dataNascimento
+      dataNascimento,
+      usuario,
+      senha
     });
     await registerRepository.save(register);
     return response.status(201).json({ register });
@@ -60,7 +64,9 @@ export default {
       novidades,
       dataCadastro,
       email,
-      dataNascimento
+      dataNascimento,
+      usuario,
+      senha
     } = request.body;
 
     const registerRepository = getRepository(Register);
@@ -72,7 +78,9 @@ export default {
       novidades,
       dataCadastro,
       email,
-      dataNascimento
+      dataNascimento,
+      usuario,
+      senha
     });
 
     response.status(200);

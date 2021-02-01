@@ -11,7 +11,9 @@ export default {
       novidades: register.novidades,
       dataCadastro: register.dataCadastro,
       email: register.email,
-      dataNascimento: register.dataNascimento
+      dataNascimento: register.dataNascimento,
+      usuario: register.usuario,
+      senha: register.senha
     };
   },
 

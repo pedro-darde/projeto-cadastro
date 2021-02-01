@@ -6,7 +6,7 @@ export default function NavBar() {
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <a className="nav-link" href="/" id="home-link">
+            <a className="nav-link" href="/formulario-cadastro" id="home-link">
               Formulario <span className="sr-only">(current)</span>
             </a>
           </li>

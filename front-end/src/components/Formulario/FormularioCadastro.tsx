@@ -6,7 +6,17 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
+import ContactsIcon from "@material-ui/icons/Contacts";
 import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import { Link } from "react-router-dom";
 function FormularioCadastro() {
   const [nome, setNome] = useState<string>("");
   const [sobrenome, setSobrenome] = useState<string>("");
@@ -14,7 +24,9 @@ function FormularioCadastro() {
   const [promocao, setPromocao] = useState<boolean>(true);
   const [novidade, setNovidades] = useState<boolean>(true);
   const [email, setEmail] = useState<string>("");
-  const [dataNascimento, setDataNascimento] = useState<Date | string>();
+  const [dataNascimento, setDataNascimento] = useState<Date | null>();
+  const [usuario, setUsuario] = useState<string>("");
+  const [senha, setSenha] = useState<string>("");
   const notify = () => toast("Registro incluido com sucesso!");
   const formatCPFNumbers = (value: any) => {
     return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
@@ -25,6 +37,8 @@ function FormularioCadastro() {
     setSobrenome("");
     setCpf("");
     setEmail("");
+    setUsuario("");
+    setSenha("");
   }
 
   async function handleSubmit(event: FormEvent) {
@@ -39,6 +53,8 @@ function FormularioCadastro() {
       dataCadastro: new Date(),
       email: email,
       dataNascimento: dataNascimento,
+      usuario: usuario,
+      senha: senha,
     });
 
     cleanFields();
@@ -79,6 +95,16 @@ function FormularioCadastro() {
             }}
             value={sobrenome}
             required={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              startAdornment: (
+                <md.InputAdornment position="start">
+                  <AccountCircle />
+                </md.InputAdornment>
+              ),
+            }}
           />
           <md.TextField
             inputProps={{
@@ -96,6 +122,16 @@ function FormularioCadastro() {
             }}
             value={cpf}
             required={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              startAdornment: (
+                <md.InputAdornment position="start">
+                  <ContactsIcon />
+                </md.InputAdornment>
+              ),
+            }}
           />
           <md.TextField
             label="Esreva seu email"
@@ -108,16 +144,70 @@ function FormularioCadastro() {
             }}
             value={email}
             required={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              startAdornment: (
+                <md.InputAdornment position="start">
+                  <AlternateEmailIcon />
+                </md.InputAdornment>
+              ),
+            }}
           />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              margin="normal"
+              label="Data de nascimento"
+              format="dd/MM/yyyy"
+              fullWidth={true}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+              value={dataNascimento}
+              onChange={(event) => {
+                setDataNascimento(event);
+                console.log(dataNascimento);
+              }}
+            />
+          </MuiPickersUtilsProvider>
           <md.TextField
+            onChange={(event) => {
+              setUsuario(event.target.value);
+            }}
+            label="Esreva seu usuario"
             variant="outlined"
             fullWidth={true}
+            id="input-nome"
             margin="normal"
-            label="Data de Nascimento"
-            type="date"
-            value={dataNascimento}
+            value={usuario}
+            required={true}
+            InputProps={{
+              startAdornment: (
+                <md.InputAdornment position="start">
+                  <AccountCircle />
+                </md.InputAdornment>
+              ),
+            }}
+          />
+
+          <md.TextField
+            fullWidth={true}
+            id="standard-adornment-password"
+            margin="normal"
+            label="Defina sua senha"
+            variant="outlined"
+            type="password"
+            value={senha}
             onChange={(event) => {
-              setDataNascimento(event.target.value);
+              setSenha(event.target.value);
+            }}
+            InputProps={{
+              startAdornment: (
+                <md.InputAdornment position="start">
+                  <VpnKeyIcon />
+                </md.InputAdornment>
+              ),
             }}
           />
           <md.FormLabel> Promoções </md.FormLabel>
@@ -138,6 +228,7 @@ function FormularioCadastro() {
             }}
             value={novidade}
           />
+
           <md.Button
             variant="contained"
             color="primary"
@@ -149,6 +240,7 @@ function FormularioCadastro() {
             {" "}
             Cadastrar{" "}
           </md.Button>
+
           <ToastContainer />
         </form>
       </div>
