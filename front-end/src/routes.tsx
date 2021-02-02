@@ -1,13 +1,12 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import React, { useState } from "react";
-import App from "./App";
+import { BrowserRouter, Route } from "react-router-dom";
 import ListagemCadastro from "./components/Lista/listagem";
 import FormularioCadastro from "./components/Formulario/FormularioCadastro";
-import NavBar from "./components/NavBar/NavBar";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 function Routes() {
-
+  const {token}  = JSON.parse(localStorage.getItem('usuario') !)
+  
+  
   return (
     <>
       <BrowserRouter>

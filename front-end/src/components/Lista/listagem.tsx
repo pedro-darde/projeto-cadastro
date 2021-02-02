@@ -11,7 +11,6 @@ import {
   createStyles,
   makeStyles,
 } from "@material-ui/core/styles";
-import { config } from "process";
 
 interface IRegisters {
   id: number;
@@ -25,12 +24,6 @@ interface IRegisters {
   dataNascimento: string;
 }
 
-interface pedroPaodeBatata {
-  usuario: {
-
-  },
-  token: string
-}
 
 export default function ListagemCadastro() {
   const [registers, setRegisters] = useState<IRegisters[]>([]);
