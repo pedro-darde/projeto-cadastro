@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import * as md from "@material-ui/core";
 import "../Formulario/style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,6 +16,11 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+
+interface IRegister {
+  email: string;
+  usuario: string;
+}
 function FormularioCadastro() {
   const [nome, setNome] = useState<string>("");
   const [sobrenome, setSobrenome] = useState<string>("");
@@ -26,8 +31,10 @@ function FormularioCadastro() {
   const [dataNascimento, setDataNascimento] = useState<Date | null>();
   const [usuario, setUsuario] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
+  const [register, setRegisters] = useState<IRegister[]>([]);
   const notify = () => toast("Registro incluido com sucesso!");
   const history = useHistory();
+  const url = "http://localhost:3333/register";
   const formatCPFNumbers = (value: any) => {
     return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
   };
@@ -40,25 +47,38 @@ function FormularioCadastro() {
     setUsuario("");
     setSenha("");
   }
+  useEffect(() => {
+    axios.get(url).then((response) => {
+      setRegisters(response.data);
+    });
+  });
 
   async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
     const url = "http://localhost:3333/register";
-    await axios.post(url, {
-      nome: nome,
-      sobrenome: sobrenome,
-      cpf: cpf,
-      promocao: promocao,
-      novidades: novidade,
-      dataCadastro: new Date(),
-      email: email,
-      dataNascimento: dataNascimento,
-      usuario: usuario,
-      senha: senha,
-    }).then(()=>{
-      history.push("/")
-    })
-
+    event.preventDefault();
+    for (let i = 0; i < register.length; i++) {
+      if (email === register[i].email || usuario === register[i].usuario) {
+        alert("Ja existe um usuario com esses dados");
+        return;
+      } else {
+        await axios
+          .post(url, {
+            nome: nome,
+            sobrenome: sobrenome,
+            cpf: cpf,
+            promocao: promocao,
+            novidades: novidade,
+            dataCadastro: new Date(),
+            email: email,
+            dataNascimento: dataNascimento,
+            usuario: usuario,
+            senha: senha,
+          })
+          .then(() => {
+            history.push("/");
+          });
+      }
+    }
     cleanFields();
   }
 
@@ -66,7 +86,10 @@ function FormularioCadastro() {
     <>
       <div className="container" id="container-cadastro">
         <form className="form-submit" onSubmit={handleSubmit}>
-          <md.DialogTitle> Formulário de Cadastro </md.DialogTitle>
+          <md.DialogTitle id="title-form">
+            {" "}
+            Formulário de Cadastro{" "}
+          </md.DialogTitle>
           <md.TextField
             onChange={(event) => {
               setNome(event.target.value);
@@ -160,6 +183,7 @@ function FormularioCadastro() {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               margin="normal"
+              required={true}
               label="Data de nascimento"
               format="dd/MM/yyyy"
               fullWidth={true}
@@ -212,7 +236,7 @@ function FormularioCadastro() {
               ),
             }}
           />
-          <md.FormLabel> Promoções </md.FormLabel>
+          <md.FormLabel id="forms"> Promoções </md.FormLabel>
           <md.Switch
             checked={promocao}
             color="primary"
@@ -221,7 +245,7 @@ function FormularioCadastro() {
             }}
             value={promocao}
           />
-          <md.FormLabel> Novidades </md.FormLabel>
+          <md.FormLabel id="forms"> Novidades </md.FormLabel>
           <md.Switch
             color="primary"
             checked={novidade}

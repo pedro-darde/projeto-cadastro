@@ -4,25 +4,53 @@
   border-radius: 25px;
 }
 #avatar-icon {
-  background: rgb(131, 58, 180);
+  background: rgb(2, 0, 36);
   background: linear-gradient(
-    142deg,
-    rgba(131, 58, 180, 1) 0%,
-    rgba(253, 29, 29, 1) 50%,
-    rgba(252, 176, 69, 1) 100%
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(71, 9, 121, 0.6502976190476191) 0%,
+    rgba(208, 112, 68, 0.6418942577030813) 61%
   );
 }
 #container-login {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  background: rgb(131, 58, 180);
+  background: rgb(2, 0, 36);
   background: linear-gradient(
-    142deg,
-    rgba(131, 58, 180, 1) 0%,
-    rgba(253, 29, 29, 1) 50%,
-    rgba(252, 176, 69, 1) 100%
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(71, 9, 121, 0.6502976190476191) 0%,
+    rgba(208, 112, 68, 0.6418942577030813) 61%
   );
+  border-radius: 25px;
+}
+#link {
+  color: white;
+  padding-bottom: 10%;
 }
 
-.link{
-    color:white;
+#sign-in{
+  color: white;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+
+#main-div{
+  opacity: 32;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  z-index: 1;
+  background-image: url("https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg");
+}
+#check-remember{
+  color:white
 }

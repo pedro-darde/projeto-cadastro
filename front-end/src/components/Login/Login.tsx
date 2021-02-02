@@ -4,9 +4,10 @@ import { useHistory } from "react-router-dom";
 import * as md from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import * as icons from "react-icons/fa";
 import Avatar from "@material-ui/core/Avatar";
 import axios from "axios";
-import "../Login/style.css"
+import "../Login/style.css";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -52,75 +53,78 @@ export default function Login() {
   }
 
   return (
-    <md.Container component="main" maxWidth="xs" id="container-login">
-      {error && <ToastContainer />}
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar} id="avatar-icon">
-          <LockOutlinedIcon id="icon"/>
-        </Avatar>
-        <md.Typography component="h1" variant="h5">
-          Sign in
-        </md.Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <md.TextField
-            value={email}
-            variant="outlined"
-            margin="normal"
-            required
-            label="Usuário"
-            fullWidth
-            name="email"
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-            id="passoword"
-            autoComplete="email"
-            autoFocus
-          />
-          <md.TextField
-            variant="outlined"
-            margin="normal"
-            required
-            label="Senha"
-            value={senha}
-            onChange={(event) => {
-              setSenha(event.target.value);
-            }}
-            fullWidth
-            name="password"
-            type="password"
-            id="passoword"
-            autoComplete="current-password"
-          />
-          <md.FormControlLabel
-            control={<md.Checkbox value="remember" color="primary" />}
-            label="Lembrar de mim"
-          />
-          <md.Button
-            id="button-submit"
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={notify}
-          >
-            Entrar
-          </md.Button>
-          <md.Grid container>
-            <md.Grid item xs>
-              <md.Link href="/editPassword" variant="body2" className="link">
-                Esqueceu sua senha ?
-              </md.Link>
+    <div id="main-div">
+      <md.Container component="main" maxWidth="xs" id="container-login">
+        {error && <ToastContainer />}
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar} id="avatar-icon">
+            <LockOutlinedIcon id="icon" />
+          </Avatar>
+          <md.Typography component="h1" variant="h5" id="sign-in">
+            Sign in
+          </md.Typography>
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <md.TextField
+              value={email}
+              margin="normal"
+              required
+              label={<icons.FaUserCircle />}
+              fullWidth
+              name="email"
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+              id="passoword"
+              autoComplete="email"
+              autoFocus
+            />
+            <md.TextField
+              margin="normal"
+              required
+              label={<icons.FaUserSecret />}
+              value={senha}
+              onChange={(event) => {
+                setSenha(event.target.value);
+              }}
+              fullWidth
+              name="password"
+              type="password"
+              id="passoword"
+              autoComplete="current-password"
+            />
+            <md.FormControlLabel id="check-remember"
+              control={<md.Checkbox value="remember" color="primary" />}
+              label="Lembrar de mim"
+            />
+            <md.Button
+              id="button-submit"
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={notify}
+            >
+              Entrar
+            </md.Button>
+            <md.Grid container id="link">
+              <md.Grid item xs>
+                <md.Link href="/editPassword" variant="body2" id="link">
+                  Esqueceu sua senha ?
+                </md.Link>
+              </md.Grid>
+              <md.Grid item xs>
+                <a
+                  href="/formulario-cadastro"
+                  id="link"
+                >
+                  Ainda não tem uma conta ? Cadastre-se!
+                </a>
+              </md.Grid>
             </md.Grid>
-            <md.Grid item xs>
-              <md.Link href="/formulario-cadastro" variant="body2" className="link"> 
-                Ainda não tem uma conta ? Cadastre-se!
-              </md.Link>
-            </md.Grid>
-          </md.Grid>
-        </form>
-      </div>
-    </md.Container>
+          </form>
+        </div>
+      </md.Container>
+    </div>
   );
 }

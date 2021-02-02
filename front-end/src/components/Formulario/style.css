@@ -2,9 +2,17 @@
     float: right;
 }
 #container-cadastro{
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     margin-top: 3%;
     width: 60%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+      90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(71, 9, 121, 0.6502976190476191) 0%,
+      rgba(208, 112, 68, 0.6418942577030813) 61%
+    );
+    border-radius: 25px;
 }
 .sucess{
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3); 
@@ -17,3 +25,12 @@
     padding: 55px 55px 37px;
 }
 
+#title-form{
+    color:white;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#forms{
+    color:white
+}

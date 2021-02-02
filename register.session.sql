@@ -1,1 +1,1 @@
-SELECT * FROM register
+select * from register

@@ -13,6 +13,19 @@
             "password": "pass123",
             "name": "register",
             "group": "register"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "register",
+            "database": "register",
+            "username": "root",
+            "password": "pass123"
         }
     ]
 }
