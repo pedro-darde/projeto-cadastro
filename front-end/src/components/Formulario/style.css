@@ -14,5 +14,6 @@
     background-color:greenyellow;
     width: 200px;
     transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    padding: 55px 55px 37px;
 }
 

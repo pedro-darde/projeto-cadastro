@@ -6,6 +6,7 @@ const routes = Router();
 
 routes.post("/login", SessionController.login);
 routes.post("/register/", RegistersController.create);
+routes.patch("/esqueceuSenha",RegistersController.editPassword)
 routes.use("/auth",authMiddleware)
 routes.get("/register/:id", RegistersController.show);
 routes.get("/register/", RegistersController.index);

@@ -1,11 +1,15 @@
-a {
-  font-family: "Indie Flower", cursive;
-  color: white;
-  border-radius: 10px;
+
+.select-option{
+  float:right;
 }
-#home-link {
-  margin-right: 10%;
+
+#home-link{
+  color:whitesmoke;
+  margin-left: 15%;
+  text-align: center;
+  height: 90%;
+  border: 0;
 }
-a:hover {
-  color: #fff;
+.form-control{
+  width: 20%;
 }

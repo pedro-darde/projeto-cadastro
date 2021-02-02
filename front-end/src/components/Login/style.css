@@ -1,0 +1,28 @@
+#button-submit {
+  background-color: white;
+  color: black;
+  border-radius: 25px;
+}
+#avatar-icon {
+  background: rgb(131, 58, 180);
+  background: linear-gradient(
+    142deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 50%,
+    rgba(252, 176, 69, 1) 100%
+  );
+}
+#container-login {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background: rgb(131, 58, 180);
+  background: linear-gradient(
+    142deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 50%,
+    rgba(252, 176, 69, 1) 100%
+  );
+}
+
+.link{
+    color:white;
+}

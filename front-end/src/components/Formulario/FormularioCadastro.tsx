@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import * as md from "@material-ui/core";
 import "../Formulario/style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,12 +11,11 @@ import ContactsIcon from "@material-ui/icons/Contacts";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import { useHistory } from "react-router-dom";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { Link } from "react-router-dom";
 function FormularioCadastro() {
   const [nome, setNome] = useState<string>("");
   const [sobrenome, setSobrenome] = useState<string>("");
@@ -28,6 +27,7 @@ function FormularioCadastro() {
   const [usuario, setUsuario] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
   const notify = () => toast("Registro incluido com sucesso!");
+  const history = useHistory();
   const formatCPFNumbers = (value: any) => {
     return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
   };
@@ -55,7 +55,9 @@ function FormularioCadastro() {
       dataNascimento: dataNascimento,
       usuario: usuario,
       senha: senha,
-    });
+    }).then(()=>{
+      history.push("/")
+    })
 
     cleanFields();
   }

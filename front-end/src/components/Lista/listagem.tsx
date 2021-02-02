@@ -11,6 +11,7 @@ import {
   createStyles,
   makeStyles,
 } from "@material-ui/core/styles";
+import NavBar from "../NavBar/NavBar";
 
 interface IRegisters {
   id: number;
@@ -24,7 +25,6 @@ interface IRegisters {
   dataNascimento: string;
 }
 
-
 export default function ListagemCadastro() {
   const [registers, setRegisters] = useState<IRegisters[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,10 +32,8 @@ export default function ListagemCadastro() {
   const url = "http://localhost:3333/register";
   const history = useHistory();
 
-  const {token}  = JSON.parse(localStorage.getItem('usuario') !)
-  console.log(token)
-
   useEffect(() => {
+    const { token } =  JSON.parse(localStorage.getItem("usuario")!);
     axios
       .get(url, {
         headers: {
@@ -102,6 +100,8 @@ export default function ListagemCadastro() {
   }
 
   return (
+    <>
+    <NavBar/>
     <div className="container" id="container-tabela">
       <div className="overflow-auto">
         <md.Paper className={classes.root}>
@@ -185,5 +185,6 @@ export default function ListagemCadastro() {
         </md.Paper>
       </div>
     </div>
+    </>
   );
 }

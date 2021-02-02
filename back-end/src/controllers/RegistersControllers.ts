@@ -32,7 +32,7 @@ export default {
       email,
       dataNascimento,
       usuario,
-      senha
+      senha,
     } = request.body;
 
     const registerRepository = getRepository(Register);
@@ -47,11 +47,10 @@ export default {
       email,
       dataNascimento,
       usuario,
-      senha
+      senha,
     });
     await registerRepository.save(register);
     return response.status(201).json({ register });
-    
   },
 
   async edit(request: Request, response: Response) {
@@ -66,7 +65,7 @@ export default {
       email,
       dataNascimento,
       usuario,
-      senha
+      senha,
     } = request.body;
 
     const registerRepository = getRepository(Register);
@@ -80,9 +79,23 @@ export default {
       email,
       dataNascimento,
       usuario,
-      senha
+      senha,
     });
 
     response.status(200);
+  },
+
+  async editPassword(req: Request, res: Response) {
+    const { email, senha } = req.body;
+
+    const registerRepository = getRepository(Register);
+    const user = await registerRepository.findOne({
+      where: {
+        email: email,
+      },
+    });
+    registerRepository.update(user?.id as number, {
+      senha: senha,
+    });
   },
 };

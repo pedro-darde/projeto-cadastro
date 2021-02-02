@@ -11,9 +11,9 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import NavBar from "../NavBar/NavBar";
 interface RegisterParams {
   id: string;
 }
@@ -44,7 +44,7 @@ export default function Register() {
         setEmail(response.data.email);
         setDataNascimento(response.data.dataNascimento)
       });
-  }, []);
+  }, [params.id]);
 
   async function editRegister() {
     axios.patch("http://localhost:3333/register", {
@@ -61,6 +61,8 @@ export default function Register() {
   }
 
   return (
+    <>
+    <NavBar/>
     <div className="container" id="container-cadastro">
       <label id="data-cadastro">
         Data do cadastro : {dateFormat(dataCadastro, "dd/mm/yyyy")}
@@ -186,5 +188,6 @@ export default function Register() {
         </a>
       </form>
     </div>
+    </>
   );
 }

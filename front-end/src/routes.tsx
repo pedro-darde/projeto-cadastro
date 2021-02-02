@@ -1,24 +1,28 @@
-import { BrowserRouter, Route } from "react-router-dom";
-import ListagemCadastro from "./components/Lista/listagem";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import FormularioCadastro from "./components/Formulario/FormularioCadastro";
-import Register from "./components/Register/Register";
+import ListagemCadastro from "./components/Lista/listagem";
+import ForgotPassword from "./components/Login/ForgotPassword";
 import Login from "./components/Login/Login";
+import { PrivateRoute } from "./components/PrivateRoutes/PrivateRoute";
+import Error from "./components/RedirectErrors/Error404";
+import Register from "./components/Register/Register";
+
 function Routes() {
-  const {token}  = JSON.parse(localStorage.getItem('usuario') !)
-  
-  
   return (
-    <>
-      <BrowserRouter>
-        <Route path="/listagemCadastro" component={ListagemCadastro}></Route>
-        <Route path="/register/:id" component={Register}></Route>
-        <Route path="/" exact component={Login}></Route>
-        <Route
-          path="/formulario-cadastro"
-          component={FormularioCadastro}
-        ></Route>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/404" component={Error}></Route>
+        <Route exact path="/" component={Login} />
+        <Route path="/formulario-cadastro" component={FormularioCadastro}></Route>
+        <Route path="/editPassword" component={ForgotPassword}></Route>
+        <PrivateRoute
+          exact
+          path="/listagemCadastro"
+          component={ListagemCadastro}
+        />
+        <PrivateRoute exact path="/register/:id" component={Register} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

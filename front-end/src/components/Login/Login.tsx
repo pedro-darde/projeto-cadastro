@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Avatar from "@material-ui/core/Avatar";
 import axios from "axios";
+import "../Login/style.css"
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -51,11 +52,11 @@ export default function Login() {
   }
 
   return (
-    <md.Container component="main" maxWidth="xs">
+    <md.Container component="main" maxWidth="xs" id="container-login">
       {error && <ToastContainer />}
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+        <Avatar className={classes.avatar} id="avatar-icon">
+          <LockOutlinedIcon id="icon"/>
         </Avatar>
         <md.Typography component="h1" variant="h5">
           Sign in
@@ -66,6 +67,7 @@ export default function Login() {
             variant="outlined"
             margin="normal"
             required
+            label="Usuário"
             fullWidth
             name="email"
             onChange={(event) => {
@@ -79,6 +81,7 @@ export default function Login() {
             variant="outlined"
             margin="normal"
             required
+            label="Senha"
             value={senha}
             onChange={(event) => {
               setSenha(event.target.value);
@@ -94,6 +97,7 @@ export default function Login() {
             label="Lembrar de mim"
           />
           <md.Button
+            id="button-submit"
             type="submit"
             fullWidth
             variant="contained"
@@ -105,12 +109,12 @@ export default function Login() {
           </md.Button>
           <md.Grid container>
             <md.Grid item xs>
-              <md.Link href="#" variant="body2">
+              <md.Link href="/editPassword" variant="body2" className="link">
                 Esqueceu sua senha ?
               </md.Link>
             </md.Grid>
             <md.Grid item xs>
-              <md.Link href="/formulario-cadastro" variant="body2">
+              <md.Link href="/formulario-cadastro" variant="body2" className="link"> 
                 Ainda não tem uma conta ? Cadastre-se!
               </md.Link>
             </md.Grid>
