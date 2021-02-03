@@ -32,12 +32,14 @@ function FormularioCadastro() {
   const [usuario, setUsuario] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
   const [register, setRegisters] = useState<IRegister[]>([]);
-  const notify = () => toast("Registro incluido com sucesso!");
+  const notify = () => toast("Usuario e/ou email ja cadastrados");
   const history = useHistory();
   const url = "http://localhost:3333/register";
   const formatCPFNumbers = (value: any) => {
     return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
   };
+  
+ 
 
   function cleanFields() {
     setNome("");
@@ -47,37 +49,40 @@ function FormularioCadastro() {
     setUsuario("");
     setSenha("");
   }
+
   useEffect(() => {
     axios.get(url).then((response) => {
       setRegisters(response.data);
+      console.log(response.data);
     });
-  });
+  }, []);
 
   async function handleSubmit(event: FormEvent) {
-    const url = "http://localhost:3333/register";
     event.preventDefault();
-    for (let i = 0; i < register.length; i++) {
-      if (email === register[i].email || usuario === register[i].usuario) {
-        alert("Ja existe um usuario com esses dados");
-        return;
-      } else {
-        await axios
-          .post(url, {
-            nome: nome,
-            sobrenome: sobrenome,
-            cpf: cpf,
-            promocao: promocao,
-            novidades: novidade,
-            dataCadastro: new Date(),
-            email: email,
-            dataNascimento: dataNascimento,
-            usuario: usuario,
-            senha: senha,
-          })
-          .then(() => {
-            history.push("/");
-          });
-      }
+    if (
+      register.filter((x) => x.email === email || x.usuario === usuario)
+        .length > 0
+    ) {
+      notify();
+      return;
+    } else {
+      const url = "http://localhost:3333/register";
+      await axios
+        .post(url, {
+          nome: nome,
+          sobrenome: sobrenome,
+          cpf: cpf,
+          promocao: promocao,
+          novidades: novidade,
+          dataCadastro: new Date(),
+          email: email,
+          dataNascimento: dataNascimento,
+          usuario: usuario,
+          senha: senha,
+        })
+        .then(() => {
+          history.push("/");
+        });
     }
     cleanFields();
   }
@@ -161,6 +166,7 @@ function FormularioCadastro() {
           <md.TextField
             label="Esreva seu email"
             variant="outlined"
+            type="email"
             fullWidth={true}
             margin="normal"
             id="input-cadastro"
@@ -261,7 +267,6 @@ function FormularioCadastro() {
             size="small"
             type="submit"
             className="button-submit"
-            onClick={notify}
           >
             {" "}
             Cadastrar{" "}
