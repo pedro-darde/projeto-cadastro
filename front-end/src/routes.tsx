@@ -1,4 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import CadastroProdutos from "./components/Formulario/CadastroProdutos";
 import FormularioCadastro from "./components/Formulario/FormularioCadastro";
 import ListagemCadastro from "./components/Lista/listagem";
 import ForgotPassword from "./components/Login/ForgotPassword";
@@ -11,6 +12,7 @@ function Routes() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route exact path="/cadastro-produtos" component={CadastroProdutos}></Route>
         <Route exact path="/404" component={Error}></Route>
         <Route exact path="/" component={Login} />
         <Route path="/formulario-cadastro" component={FormularioCadastro}></Route>

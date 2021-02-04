@@ -107,19 +107,23 @@ export default function Login() {
             >
               Entrar
             </md.Button>
+            <md.Button
+              id="button-create"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={()=>{
+                history.push("/formulario-cadastro")
+              }}
+            >
+              Criar Conta
+            </md.Button>
             <md.Grid container id="link">
               <md.Grid item xs>
                 <md.Link href="/editPassword" variant="body2" id="link">
                   Esqueceu sua senha ?
                 </md.Link>
-              </md.Grid>
-              <md.Grid item xs>
-                <a
-                  href="/formulario-cadastro"
-                  id="link"
-                >
-                  Ainda não tem uma conta ? Cadastre-se!
-                </a>
               </md.Grid>
             </md.Grid>
           </form>

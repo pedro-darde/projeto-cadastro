@@ -51,6 +51,7 @@ export default {
     });
     await registerRepository.save(register);
     return response.status(201).json({ register });
+    
   },
 
   async edit(request: Request, response: Response) {
