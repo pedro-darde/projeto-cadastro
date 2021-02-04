@@ -1,10 +1,27 @@
 import * as icons from "react-icons/fa";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import "./cadastro-produto.css";
 import * as md from "@material-ui/core";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 function CadastroProdutos() {
+  const[nomeProduto,setNomeProduto] = useState<string>("");
+  const[descricaoProduto, setDescricaoProduto] = useState<string>("")
+  const[precoProduto,setPrecoProduto] = useState<number>();
+  const[dataCadastroProduto,setDataCadastroProduto] = useState<Date>();
+  const[quantidadeProduto,setQuantidadeProduto] = useState<number>();
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const history = useHistory();
+  function handleSubmit(event : FormEvent){
+    const url = "http://localhost:3333/produtos/"
+    axios.post(url,{
+
+    }).then(response=>{
+      console.log(response.data)
+    })
+  }
+
 
   function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
     if (!event.target.files) {
