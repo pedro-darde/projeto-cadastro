@@ -25,3 +25,23 @@ input[type="file"]{
     object-fit: cover;
     border-radius: 20px;
 }
+
+#container-cadastro-produtos{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding-bottom: 5%;
+}
+
+#btn-submit-produtos{
+    margin-bottom: 5%;
+}
+
+.icon-style{
+    position: relative;
+    z-index: 1;
+}
+
+.container-wraper{
+    position: relative;
+    width: 195px;
+}

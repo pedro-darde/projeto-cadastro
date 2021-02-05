@@ -18,8 +18,8 @@ export default class Produtos {
   @Column()
   preco: number;
   
-  @Column()
-  dataCadastro: Date;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+  dataCadastro: string;
 
   @OneToMany(() =>Image, image => image.produtos,{
     cascade: ['insert','update']
