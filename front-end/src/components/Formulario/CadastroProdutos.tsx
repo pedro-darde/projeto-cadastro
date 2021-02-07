@@ -10,6 +10,15 @@ function CadastroProdutos() {
   const [quantidadeProduto, setQuantidadeProduto] = useState<number | string>();
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  function removeSelectedImage(id: number) {
+    alert("Voce tem certeza ?");
+    
+    previewImages.splice(id);
+    images.splice(id);
+
+    console.log(previewImages.length)
+    console.log(images.length)
+  }
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const url = "http://localhost:3333/produtos";
@@ -42,6 +51,7 @@ function CadastroProdutos() {
 
     setPreviewImages(selectedImagesPreview);
   }
+
   return (
     <div className="container" id="container-cadastro-produtos">
       <form className="form-submit" onSubmit={handleSubmit}>
@@ -101,11 +111,25 @@ function CadastroProdutos() {
         <div className="input-block">
           <label> Selecione imagens do seu produto </label>
           <div className="container" id="container-img">
-            {previewImages.map((image) => {
+            {previewImages.map((image, key) => {
               return (
-                <div className="container-wraper">
-                  <icons.FaTrash color="red" className="icon-style"/>
-                  <img key={image} src={image} alt="Nome" />
+                <div className="container-wraper" key={key}>
+                  <img
+                    key={image}
+                    src={image}
+                    alt="Nome"
+                    className="product-image"
+                  />
+                  <div className="overlay">
+                    <icons.FaTrash
+                      color="red"
+                      className="icon-style"
+                      onClick={(event) => {
+                        removeSelectedImage(key);
+                        console.log(previewImages.length)
+                      }}
+                    />
+                  </div>
                 </div>
               );
             })}
