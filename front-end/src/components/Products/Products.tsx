@@ -1,9 +1,6 @@
 import axios from "axios";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import * as md from "@material-ui/core";
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {
   useTheme,
   makeStyles,
@@ -13,11 +10,12 @@ import {
 import Paper from "@material-ui/core/Paper";
 import "../Products/style.css";
 import MenuIcon from "@material-ui/icons/Menu";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1,
+      display: "flex",
     },
     paper: {
       padding: theme.spacing(1),
@@ -34,55 +32,30 @@ const useStyles = makeStyles((theme: Theme) =>
       objectFit: "cover",
     },
     appBar: {
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      [theme.breakpoints.up("sm")]: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+      },
     },
     menuButton: {
       marginRight: theme.spacing(2),
-    },
-    hide: {
-      display: "none",
+      [theme.breakpoints.up("sm")]: {
+        display: "none",
+      },
     },
     drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
+      [theme.breakpoints.up("sm")]: {
+        width: drawerWidth,
+        flexShrink: 0,
+      },
     },
+    toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-    },
-    drawerHeader: {
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
     },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: -drawerWidth,
-    },
-    contentShift: {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
     },
   })
 );
@@ -104,15 +77,34 @@ function Products() {
   const theme = useTheme();
   const [products, setProducts] = useState<IProducts[]>([]);
   const url = "http://localhost:3333/produtos/";
+  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const handleDrawerClose = () => {
+  const handleClose = () => {
     setOpen(false);
   };
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+  const drawer = (
+    <div>
+      <div className={classes.toolbar} />
+      <md.Divider />
+      <md.List>
+        {["Carrinho", "Categorias"].map((text, index) => (
+          <md.ListItem button key={text}>
+            <md.ListItemIcon>{<ShoppingCartIcon />}</md.ListItemIcon>
+            <md.ListItemText primary={text} />
+          </md.ListItem>
+        ))}
+      </md.List>
+      <md.Divider />
+    </div>
+  );
 
   useEffect(() => {
     axios.get(url).then((response) => {
@@ -122,97 +114,113 @@ function Products() {
   }, []);
 
   return (
-    <React.Fragment>
-      <md.CssBaseline />
-      <md.AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
+    <div className={classes.root}>
+      <md.Dialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
       >
+        <md.DialogTitle>Produto</md.DialogTitle>
+      </md.Dialog>
+      <md.CssBaseline />
+      <md.AppBar position="fixed" className={classes.appBar}>
         <md.Toolbar>
           <md.IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
             <MenuIcon />
           </md.IconButton>
           <md.Typography variant="h6" noWrap>
-              Produtos
+            Produtos
           </md.Typography>
         </md.Toolbar>
       </md.AppBar>
-      <md.Drawer 
-         className={classes.drawer}
-         variant="persistent"
-         anchor="left"
-         open={open}
-         classes={{
-           paper: classes.drawerPaper,
-         }}>
-           <div className={classes.drawerHeader}>
-               <md.IconButton onClick={handleDrawerClose}>
-               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-               </md.IconButton>
-           </div>
-      </md.Drawer>
-      <main className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}>
-            
-      </main>
-      <div className={classes.drawerHeader}/>
-
-        
-      <md.Grid container spacing={3}>
-        {products.map((values) => (
-          <md.Grid item xs={12} md={6}>
-            <div className={classes.paper}>
-              <Paper className={classes.paper}>
-                <md.Grid container>
-                  <md.Grid>
-                    {values.images.map((imgVal) => (
-                      <md.ButtonBase className={classes.img}>
-                        <img
-                          id="product-images"
-                          src={imgVal.url}
-                          className={classes.img}
-                        ></img>
-                      </md.ButtonBase>
-                    ))}
-                  </md.Grid>
-                  <md.Grid item xs={12} sm container>
-                    <md.Grid item xs container direction="column" spacing={2}>
-                      <md.Grid item xs>
-                        <md.Typography gutterBottom variant="subtitle1">
-                          {values.nome}
-                        </md.Typography>
-                        <md.Typography variant="body2" gutterBottom>
-                          {values.descricao}
-                        </md.Typography>
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        <md.Hidden smUp implementation="css">
+          <md.Drawer
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </md.Drawer>
+        </md.Hidden>
+        <md.Hidden xsDown implementation="css">
+          <md.Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </md.Drawer>
+        </md.Hidden>
+      </nav>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <md.Grid container spacing={3}>
+          {products.map((values) => (
+            <md.Grid item xs={12} md={6}>
+              <div className={classes.paper}>
+                <Paper className={classes.paper}>
+                  <md.Grid container>
+                    <md.Grid>
+                      {values.images.map((imgVal) => (
+                        <md.ButtonBase className={classes.img}>
+                          <img
+                            id="product-images"
+                            src={imgVal.url}
+                            className={classes.img}
+                          ></img>
+                        </md.ButtonBase>
+                      ))}
+                    </md.Grid>
+                    <md.Grid item xs={12} sm container>
+                      <md.Grid item xs container direction="column" spacing={2}>
+                        <md.Grid item xs>
+                          <md.Typography gutterBottom variant="subtitle1">
+                            {values.nome}
+                          </md.Typography>
+                          <md.Typography variant="body2" gutterBottom>
+                            {values.descricao}
+                          </md.Typography>
+                        </md.Grid>
+                        <md.Grid item>
+                          <md.Button
+                            variant="contained"
+                            color="primary"
+                            id="btn-comprar"
+                          >
+                            Adicionar ao carrinho
+                          </md.Button>
+                        </md.Grid>
                       </md.Grid>
                       <md.Grid item>
-                        <md.Button variant="contained" color="primary">
-                          Comprar
-                        </md.Button>
+                        <md.Typography variant="subtitle1">
+                          {"R$ " + values.preco}
+                        </md.Typography>
                       </md.Grid>
                     </md.Grid>
-                    <md.Grid item>
-                      <md.Typography variant="subtitle1">
-                        {"R$ " + values.preco}
-                      </md.Typography>
-                    </md.Grid>
                   </md.Grid>
-                </md.Grid>
-              </Paper>
-            </div>
-          </md.Grid>
-        ))}
-      </md.Grid>
-    </React.Fragment>
+                </Paper>
+              </div>
+            </md.Grid>
+          ))}
+        </md.Grid>
+      </main>
+    </div>
   );
 }
 

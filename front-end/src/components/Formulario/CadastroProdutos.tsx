@@ -2,7 +2,7 @@ import * as icons from "react-icons/fa";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import "./cadastro-produto.css";
 import * as md from "@material-ui/core";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer , toast} from "react-toastify";
 import axios from "axios";
 function CadastroProdutos() {
   const [nomeProduto, setNomeProduto] = useState<string>("");
@@ -12,7 +12,7 @@ function CadastroProdutos() {
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [open, setOpen] = React.useState(false);
-
+  const notify = () => toast("Produto cadastrado com sucesso");
   function handleCloseAccept(id:number) {
     setOpen(false);
     let newPreViewImages = previewImages;
@@ -26,6 +26,15 @@ function CadastroProdutos() {
   }
   function handleCloseReject() {
     setOpen(false);
+  }
+
+  function cleanFields(){
+    setDescricaoProduto("");
+    setPrecoProduto("");
+    setQuantidadeProduto("");
+    setDescricaoProduto("")
+    setPreviewImages([]);
+    setImages([])
   }
 
   async function handleSubmit(event: FormEvent) {
@@ -42,6 +51,8 @@ function CadastroProdutos() {
     });
 
     await axios.post(url, data);
+    notify();
+    cleanFields();
   }
 
   function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
