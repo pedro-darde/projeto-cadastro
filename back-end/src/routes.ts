@@ -12,12 +12,14 @@ routes.post("/login", SessionController.login);
 routes.post("/register/", RegistersController.create);
 routes.patch("/esqueceuSenha", RegistersController.editPassword);
 
+routes.post("/produtos/", upload.array("images"), ProdutosController.create);
+routes.get("/produtos/:id", ProdutosController.show)
+routes.get("/produtos/", upload.array("images"),ProdutosController.index)
+
 routes.use("/auth", authMiddleware);
 routes.get("/register/:id", RegistersController.show);
 routes.get("/register/", RegistersController.index);
 routes.patch("/register/", RegistersController.edit);
 
-routes.post("/produtos/", upload.array("images"), ProdutosController.create);
-routes.get("/produtos/:id", ProdutosController.show)
-routes.get("/produtos/", ProdutosController.index)
+
 export default routes;

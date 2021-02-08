@@ -2,6 +2,7 @@ import * as icons from "react-icons/fa";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import "./cadastro-produto.css";
 import * as md from "@material-ui/core";
+import { ToastContainer } from "react-toastify";
 import axios from "axios";
 function CadastroProdutos() {
   const [nomeProduto, setNomeProduto] = useState<string>("");
@@ -10,15 +11,23 @@ function CadastroProdutos() {
   const [quantidadeProduto, setQuantidadeProduto] = useState<number | string>();
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
-  function removeSelectedImage(id: number) {
-    alert("Voce tem certeza ?");
-    
-    previewImages.splice(id);
-    images.splice(id);
+  const [open, setOpen] = React.useState(false);
 
-    console.log(previewImages.length)
-    console.log(images.length)
+  function handleCloseAccept(id:number) {
+    setOpen(false);
+    let newPreViewImages = previewImages;
+    let newImages = images;
+
+    newPreViewImages.splice(id, 1);
+    newImages.splice(id, 1);
+
+    setPreviewImages([...newPreViewImages]);
+    setImages([...newImages]);
   }
+  function handleCloseReject() {
+    setOpen(false);
+  }
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const url = "http://localhost:3333/produtos";
@@ -28,14 +37,11 @@ function CadastroProdutos() {
     data.append("descricao", descricaoProduto);
     data.append("quantidade", String(quantidadeProduto));
     data.append("preco", String(precoProduto));
-
     images.forEach((image) => {
       data.append("images", image);
     });
 
     await axios.post(url, data);
-
-    console.log(data.entries);
   }
 
   function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
@@ -55,7 +61,7 @@ function CadastroProdutos() {
   return (
     <div className="container" id="container-cadastro-produtos">
       <form className="form-submit" onSubmit={handleSubmit}>
-        <md.DialogTitle id="title-form"> Cadastrar Produto </md.DialogTitle>
+        <md.DialogTitle id="product-title"> Cadastrar Produto </md.DialogTitle>
         <md.TextField
           label="Nome do Produto"
           variant="outlined"
@@ -109,13 +115,13 @@ function CadastroProdutos() {
           }}
         />
         <div className="input-block">
-          <label> Selecione imagens do seu produto </label>
+          <label> Selecione imagens do seu produto : </label>
           <div className="container" id="container-img">
             {previewImages.map((image, key) => {
               return (
                 <div className="container-wraper" key={key}>
                   <img
-                    key={image}
+                    key={key}
                     src={image}
                     alt="Nome"
                     className="product-image"
@@ -124,12 +130,37 @@ function CadastroProdutos() {
                     <icons.FaTrash
                       color="red"
                       className="icon-style"
-                      onClick={(event) => {
-                        removeSelectedImage(key);
-                        console.log(previewImages.length)
+                      onClick={() => {
+                        setOpen(true);
                       }}
                     />
                   </div>
+                  <md.Dialog
+                    open={open}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <md.DialogTitle>
+                      {"Tem certeza que deseja excluir a imagem selecionada ?"}
+                    </md.DialogTitle>
+                    <md.DialogContent>
+                      <md.DialogContentText>
+                        Ao aceitar essa mudança a imagem não sera exibida nos
+                        detalhes do produto cadastrado
+                      </md.DialogContentText>
+                    </md.DialogContent>
+                    <md.DialogActions>
+                      <md.Button onClick={handleCloseReject} color="secondary">
+                        {" "}
+                        Rejeitar{" "}
+                      </md.Button>
+                      <md.Button onClick={()=>{
+                        handleCloseAccept(key)}} color="primary">
+                        {" "}
+                        Aceitar
+                      </md.Button>
+                    </md.DialogActions>
+                  </md.Dialog>
                 </div>
               );
             })}
@@ -156,6 +187,7 @@ function CadastroProdutos() {
           </md.Button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 }
