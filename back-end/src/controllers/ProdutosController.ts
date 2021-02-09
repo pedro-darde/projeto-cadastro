@@ -18,7 +18,9 @@ export default {
     const { id } = request.params;
     const registerRepository = getRepository(Produtos);
 
-    const register = await registerRepository.findOneOrFail(id);
+    const register = await registerRepository.findOneOrFail(id,{
+      relations: ["images"],
+    });
 
     return response.json(produtos_view.render(register));
   },

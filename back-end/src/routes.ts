@@ -13,7 +13,7 @@ routes.post("/register/", RegistersController.create);
 routes.patch("/esqueceuSenha", RegistersController.editPassword);
 
 routes.post("/produtos/", upload.array("images"), ProdutosController.create);
-routes.get("/produtos/:id", ProdutosController.show)
+routes.get("/produtos/:id", upload.array("images"),ProdutosController.show)
 routes.get("/produtos/", upload.array("images"),ProdutosController.index)
 
 routes.use("/auth", authMiddleware);

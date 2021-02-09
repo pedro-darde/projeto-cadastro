@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as md from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
   useTheme,
   makeStyles,
@@ -11,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import "../Products/style.css";
 import MenuIcon from "@material-ui/icons/Menu";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { set } from "date-fns";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerPaper: {
       width: drawerWidth,
     },
+    gridList: {
+      width: "auto",
+      height: 450,
+    },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
@@ -65,6 +71,7 @@ interface images {
   url: string;
 }
 interface IProducts {
+  id: number;
   nome: string;
   descricao: string;
   quantidade: number;
@@ -79,6 +86,11 @@ function Products() {
   const url = "http://localhost:3333/produtos/";
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [nome, setNome] = useState<string>("");
+  const [descricao, setDescricao] = useState<string>("");
+  const [preco, setPreco] = useState<number>();
+  const [images, setImages] = useState<images[]>([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -90,6 +102,16 @@ function Products() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  function listProduct(id: number) {
+    setOpen(true);
+    axios.get(`http://localhost:3333/produtos/${id}`).then((response) => {
+      setNome(response.data.nome);
+      setDescricao(response.data.descricao);
+      setPreco(response.data.preco);
+      setImages(response.data.images);
+      console.log(response.data);
+    });
+  }
   const drawer = (
     <div>
       <div className={classes.toolbar} />
@@ -116,11 +138,41 @@ function Products() {
   return (
     <div className={classes.root}>
       <md.Dialog
+        fullScreen={fullScreen}
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <md.DialogTitle>Produto</md.DialogTitle>
+        <md.DialogTitle>{nome}</md.DialogTitle>
+        <md.DialogTitle>R$ {preco}</md.DialogTitle>
+        <md.DialogContent>
+          <div>
+            <md.GridList cellHeight={300} className={classes.gridList}>
+              <md.GridListTile
+                key="Subheader"
+                cols={2}
+                style={{ height: "auto" }}
+              >
+                <md.ListSubheader> Imagens do Produto</md.ListSubheader>
+              </md.GridListTile>
+
+              {images.map((tile) => (
+                <md.GridListTile key={tile.id}>
+                  <img src={tile.url} alt={tile.url} />
+                  <md.GridListTileBar
+                    title={nome}
+                    subtitle={<span>{descricao}</span>}
+                  />
+                </md.GridListTile>
+              ))}
+            </md.GridList>
+          </div>
+        </md.DialogContent>
+        <md.DialogActions>
+          <md.Button color="secondary" onClick={handleClose}>
+            Fechar
+          </md.Button>
+        </md.DialogActions>
       </md.Dialog>
       <md.CssBaseline />
       <md.AppBar position="fixed" className={classes.appBar}>
@@ -178,7 +230,12 @@ function Products() {
                   <md.Grid container>
                     <md.Grid>
                       {values.images.map((imgVal) => (
-                        <md.ButtonBase className={classes.img}>
+                        <md.ButtonBase
+                          className={classes.img}
+                          onClick={() => {
+                            listProduct(values.id);
+                          }}
+                        >
                           <img
                             id="product-images"
                             src={imgVal.url}
