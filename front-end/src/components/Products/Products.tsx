@@ -12,7 +12,6 @@ import Paper from "@material-ui/core/Paper";
 import "../Products/style.css";
 import MenuIcon from "@material-ui/icons/Menu";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { set } from "date-fns";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       objectFit: "cover",
     },
     appBar: {
+      backgroundColor: "black",
       [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
@@ -92,9 +92,7 @@ function Products() {
   const [preco, setPreco] = useState<number>();
   const [images, setImages] = useState<images[]>([]);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  
   const handleClose = () => {
     setOpen(false);
   };
@@ -240,6 +238,7 @@ function Products() {
                             id="product-images"
                             src={imgVal.url}
                             className={classes.img}
+                            alt={imgVal.url}
                           ></img>
                         </md.ButtonBase>
                       ))}

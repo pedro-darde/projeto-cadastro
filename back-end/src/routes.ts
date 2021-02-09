@@ -12,7 +12,9 @@ routes.post("/login", SessionController.login);
 routes.post("/register/", RegistersController.create);
 routes.patch("/esqueceuSenha", RegistersController.editPassword);
 
+
 routes.post("/produtos/", upload.array("images"), ProdutosController.create);
+routes.patch("/produtos/", upload.array("images"),ProdutosController.edit);
 routes.get("/produtos/:id", upload.array("images"),ProdutosController.show)
 routes.get("/produtos/", upload.array("images"),ProdutosController.index)
 

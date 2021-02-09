@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn , OneToMany, JoinColumn} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn , OneToMany, JoinColumn, BaseEntity} from "typeorm";
 import Image from './Image'
 @Entity("produtos")
-export default class Produtos {
+export default class Produtos extends BaseEntity {
   
   @PrimaryGeneratedColumn("increment")
   id: number;
@@ -22,7 +22,8 @@ export default class Produtos {
   dataCadastro: string;
 
   @OneToMany(() =>Image, image => image.produtos,{
-    cascade: ['insert','update']
+    cascade: ['insert','update'],
+    onUpdate: "CASCADE"
   })
   @JoinColumn({name: 'produto_id'})
   images: Image[];

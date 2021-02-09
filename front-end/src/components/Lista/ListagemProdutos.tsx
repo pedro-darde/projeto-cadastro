@@ -7,12 +7,15 @@ import {
 import * as md from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import NavBar from "../NavBar/NavBar";
+import { Link } from "react-router-dom";
+import * as icons from "react-icons/fa";
 interface images {
   id: number;
   url: string;
 }
 interface IProducts {
+  id:string;
   nome: string;
   descricao: string;
   quantidade: number;
@@ -79,6 +82,7 @@ function ListarProdutos() {
   };
   return (
     <>
+    <NavBar/>
       <div className="container" id="container-tabela">
         <div className="overflow-auto">
           <md.Paper className={classes.root}>
@@ -100,7 +104,7 @@ function ListarProdutos() {
                     <StyledTableCell align="right">
                       Data Cadastro
                     </StyledTableCell>
-                    <StyledTableCell align="right">Imagens</StyledTableCell>
+                    <StyledTableCell align="right"></StyledTableCell>
                   </StyledTableRow>
                 </md.TableHead>
                 <md.TableBody>
@@ -125,6 +129,15 @@ function ListarProdutos() {
                             row.dataCadastro,
                             "dd/mm/yyyy,h:MM:ss TT"
                           )}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                        <Link
+                            to={{ pathname: `/produtos/${row.id}` }}
+                            className="btn btn-primary"
+                          >
+                            {" "}
+                            <icons.FaEdit />{" "}
+                          </Link>
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}

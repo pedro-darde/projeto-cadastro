@@ -24,6 +24,24 @@ export default function NavBar() {
               Listagem <span className="sr-only">(current)</span>
             </a>
           </li>
+          <li className="nav-item">
+            <a
+              className="nav-link btn btn-outline-seconday"
+              href="/produtos"
+              id="home-link"
+            >
+              Produtos<span className="sr-only">(current)</span>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              className="nav-link btn btn-outline-seconday"
+              href="/listagem-produtos"
+              id="home-link"
+            >
+              Editar Produtos<span className="sr-only">(current)</span>
+            </a>
+          </li>
         </ul>
 
         <b.Modal
@@ -82,6 +100,14 @@ export default function NavBar() {
           <b.Dropdown.Item eventKey="1" onClick={() => setSmShow(true)}>
             {" "}
             Dados do Usuário{" "}
+          </b.Dropdown.Item>
+          <b.Dropdown.Item
+            eventKey="1"
+            onClick={() => {
+              history.push("/cadastro-produtos");
+            }}
+          >
+            Cadastrar Produto
           </b.Dropdown.Item>
           <b.Dropdown.Item
             eventKey="1"
