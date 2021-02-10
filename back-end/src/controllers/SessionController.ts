@@ -1,14 +1,12 @@
-import { getRepository } from "typeorm";
-import Register from "../models/Register";
+import {Register} from "../models/register";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as auth from "../config/auth";
 
 class SessionControler {
   public async login(req: any, res: any) {
-    const registerRepository = getRepository(Register);
     try {
-      let register = await registerRepository.findOneOrFail({
+      let register = await Register.findOne({
         where: {
           email: req.body.email,
           senha: req.body.senha,
