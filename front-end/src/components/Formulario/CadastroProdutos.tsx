@@ -46,9 +46,9 @@ function CadastroProdutos() {
     data.append("descricao", descricaoProduto);
     data.append("quantidade", String(quantidadeProduto));
     data.append("preco", String(precoProduto));
-    images.forEach((image) => {
-      data.append("images", image);
-    });
+    // images.forEach((image) => {
+    //   data.append("images", image);
+    // });
 
     await axios.post(url, data);
     notify();

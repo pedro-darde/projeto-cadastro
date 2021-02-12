@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import databaseConfig from '../config/database.js'
-import {initRegister} from '../models/register'
+import {initRegister} from '../models/Register'
 import {initProduto} from '../models/produtos'
 import {initProdutoImage} from '../models/produtoimage'
 

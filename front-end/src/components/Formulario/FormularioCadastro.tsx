@@ -66,7 +66,7 @@ function FormularioCadastro() {
       notify();
       return;
     } else {
-      const url = "http://localhost:3333/register";
+      const url = "http://localhost:3333/create-register";
       await axios
         .post(url, {
           nome: nome,

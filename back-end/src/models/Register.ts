@@ -5,8 +5,6 @@ export class Register extends Model {
   public nome!: string;
   public sobrenome!: string;
   public cpf!: string;
-  public promocao!: boolean;
-  public novidades!: boolean;
   public dataCadastro: boolean;
   public email!: string;
   public dataNascimento!: string;
@@ -42,14 +40,6 @@ export const initRegister = (sequelize: Sequelize) => {
           msg: "Este CPF/CNPJ já está cadastrado.",
         },
         type: DataTypes.STRING,
-      },
-      promocao: {
-        allowNull: false,
-        type: DataTypes.BOOLEAN,
-      },
-      novidades: {
-        allowNull: false,
-        type: DataTypes.BOOLEAN,
       },
       dataCadastro: {
         type: DataTypes.DATE,

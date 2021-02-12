@@ -1,3 +1,4 @@
+import { request } from "express";
 import { DataTypes, Model, Optional, Sequelize } from "sequelize";
 import { Produtos } from "./produtos";
 
@@ -12,7 +13,8 @@ interface ImageCreationAttributes extends Optional<ImageAttributes, "id"> {}
 export class ProdutoImage extends Model<ImageAttributes, ImageCreationAttributes> implements ImageAttributes {
   public id!: number;
   public path!: string;
-  public produto_id!: number;
+  public produto_id!: number; 
+
 }
 
 export const initProdutoImage = (sequelize: Sequelize) => {
@@ -29,10 +31,6 @@ export const initProdutoImage = (sequelize: Sequelize) => {
       },
       produto_id: {
         allowNull: false,
-        // references: {
-        //   model: Produtos,
-        //   key: "id",
-        // },
         type: DataTypes.INTEGER.UNSIGNED,
       },
     },
@@ -42,6 +40,8 @@ export const initProdutoImage = (sequelize: Sequelize) => {
     }
   );
 
-  ProdutoImage.belongsTo(Produtos, { targetKey: "id" })
+
+  ProdutoImage.belongsTo(Produtos, { foreignKey: "produto_id" })
+
 };
 //export default { ProdutoImage, initProdutoImage };

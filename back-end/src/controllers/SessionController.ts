@@ -1,4 +1,4 @@
-import {Register} from "../models/register";
+import {Register} from "../models/Register";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as auth from "../config/auth";
